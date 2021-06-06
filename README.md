@@ -1,4 +1,4 @@
-# kv
+# @nickadam/kv [![Build Status](https://github.com/nickadam/kv/actions/workflows/build.yml/badge.svg)](https://github.com/nickadam/kv/actions/workflows/build.yml?query=branch%3Amain)
 A simple key value database backed by sqlite3
 
 # Features
