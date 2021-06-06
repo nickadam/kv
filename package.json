@@ -1,0 +1,16 @@
+{
+  "name": "kv",
+  "version": "1.0.0",
+  "description": "A node key value store backed by sqlite that supports expiring keys",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Nick Vissari <networknerd@gmail.com>",
+  "repository": "nickadam/kv",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^7.4.0",
+    "cron": "^1.8.2"
+  }
+}
