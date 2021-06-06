@@ -9,12 +9,18 @@ module.exports = path => {
   // initialize kv table
   sqlite.exec('CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT, ttl INTEGER DEFAULT -1, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)')
 
-  const get = (key, options, next) => {
-    // allow for two or three parameters
-    if(next === undefined){
-      next = options
-      options = {}
-    }
+  const get = (key, a2, a3) => {
+    let options = {}
+    let next = undefined
+    if(typeof a2 === 'object')
+      options = a2
+    if(typeof a2 === 'function')
+      next = a2
+    if(typeof a3 === 'object')
+      options = a3
+    if(typeof a3 === 'function')
+      next = a3
+
     let q = 'SELECT * FROM kv WHERE k = ? AND (ttl = -1 OR CURRENT_TIMESTAMP < datetime(timestamp, \'+\' || ttl || \' seconds\'))'
     let return_multi = false
 
@@ -46,12 +52,18 @@ module.exports = path => {
     next(null, options.metadata ? data : data.map(x => x.v))
   }
 
-  const set = (key, value, options, next) => {
-    // allow for three or four parameters
-    if(next === undefined){
-      next = options
-      options = {}
-    }
+  const set = (key, value, a3, a4) => {
+    let options = {}
+    let next = undefined
+    if(typeof a3 === 'object')
+      options = a3
+    if(typeof a3 === 'function')
+      next = a3
+    if(typeof a4 === 'object')
+      options = a4
+    if(typeof a4 === 'function')
+      next = a4
+
     let q = 'INSERT INTO kv (k,v) VALUES (@k, @v) ON CONFLICT(k) DO UPDATE SET v=@v,ttl=-1,timestamp=CURRENT_TIMESTAMP'
     const data = {
       k: key,
@@ -64,9 +76,13 @@ module.exports = path => {
     try{
       sqlite.prepare(q).run(data)
     }catch(err){
-      return next(err)
+      if(next)
+        return next(err)
+      throw err
     }
-    next(null)
+    if(next)
+      return next(null)
+    return null
   }
 
   const delete_expired = () => {

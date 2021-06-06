@@ -21,6 +21,22 @@ describe('kv', function(){
       })
     })
   })
+  describe('set() as sync no options', function(){
+    const kvmem = kv(':memory:')
+    it('should return null', function(){
+      const _ = kvmem.set('test key', 'test value')
+      kvmem.quit()
+      assert.equal(_, null)
+    })
+  })
+  describe('set() as sync with ttl', function(){
+    const kvmem = kv(':memory:')
+    it('should return null', function(){
+      const _ = kvmem.set('test key', 'test value', {ttl: 10})
+      kvmem.quit()
+      assert.equal(_, null)
+    })
+  })
   describe('get() no options', function(){
     const kvmem = kv(':memory:')
     kvmem.set('test key', 'test value', function(err){
