@@ -34,7 +34,9 @@ module.exports = path => {
     try{
       data = sqlite.prepare(q).all(key)
     }catch(err){
-      return next(err)
+      if(next)
+        return next(err)
+      throw err
     }
 
     // parse the values
@@ -43,13 +45,21 @@ module.exports = path => {
       return x
     })
 
-    if(!return_multi && data.length == 0)
-      return next(null, null)
+    if(!return_multi && data.length == 0){
+      if(next)
+        return next(null, null)
+      return null
+    }
 
-    if(!return_multi)
-      return next(null, options.metadata ? data[0] : data[0].v)
+    if(!return_multi){
+      if(next)
+        return next(null, options.metadata ? data[0] : data[0].v)
+      return options.metadata ? data[0] : data[0].v
+    }
 
-    next(null, options.metadata ? data : data.map(x => x.v))
+    if(next)
+      return next(null, options.metadata ? data : data.map(x => x.v))
+    return options.metadata ? data : data.map(x => x.v)
   }
 
   const set = (key, value, a3, a4) => {
