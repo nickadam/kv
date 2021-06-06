@@ -1,5 +1,5 @@
 {
-  "name": "kv",
+  "name": "@nickadam/kv",
   "version": "1.0.0",
   "description": "A node key value store backed by sqlite that supports expiring keys",
   "main": "index.js",
