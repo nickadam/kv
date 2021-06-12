@@ -16,8 +16,6 @@ module.exports = path => {
       options = a2
     if(typeof a2 === 'function')
       next = a2
-    if(typeof a3 === 'object')
-      options = a3
     if(typeof a3 === 'function')
       next = a3
 
@@ -69,8 +67,6 @@ module.exports = path => {
       options = a3
     if(typeof a3 === 'function')
       next = a3
-    if(typeof a4 === 'object')
-      options = a4
     if(typeof a4 === 'function')
       next = a4
 
