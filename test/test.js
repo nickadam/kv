@@ -59,6 +59,24 @@ describe('kv', function(){
       })
     })
   })
+  describe('get() no results', function(){
+    const kvmem = kv(':memory:')
+    it('should return null', function(){
+      kvmem.get('test key', function(err, data){
+        kvmem.quit()
+        assert.equal(err, null)
+        assert.equal(data, null)
+      })
+    })
+  })
+  describe('get() as sync no results', function(){
+    const kvmem = kv(':memory:')
+    it('should return null', function(){
+      const data = kvmem.get('test key')
+      kvmem.quit()
+      assert.equal(data, null)
+    })
+  })
   describe('get() as sync no options', function(){
     const kvmem = kv(':memory:')
     kvmem.set('test key', 'test value')
@@ -75,6 +93,25 @@ describe('kv', function(){
       const data = kvmem.get('test key', {metadata: true})
       kvmem.quit()
       assert.equal(data.v, 'test value')
+    })
+  })
+  describe('del() async', function(){
+    const kvmem = kv(':memory:')
+    kvmem.set('test key', 'test value', {ttl: 10})
+    it('should return null', function(){
+      kvmem.del('test key', err => {
+        assert.equal(kvmem.get('test key'), null)
+        kvmem.quit()
+      })
+    })
+  })
+  describe('del() sync', function(){
+    const kvmem = kv(':memory:')
+    kvmem.set('test key', 'test value', {ttl: 10})
+    it('should return null', function(){
+      kvmem.del('test key')
+      assert.equal(kvmem.get('test key'), null)
+      kvmem.quit()
     })
   })
   describe('set and get a lot', function(){

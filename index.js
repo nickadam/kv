@@ -75,7 +75,7 @@ module.exports = path => {
       k: key,
       v: JSON.stringify(value),
     }
-    if(options.ttl){
+    if(options.ttl > -1){
       data.ttl = options.ttl
       q = 'INSERT INTO kv (k,v,ttl) VALUES (@k, @v, @ttl) ON CONFLICT(k) DO UPDATE SET v=@v,ttl=@ttl,timestamp=CURRENT_TIMESTAMP'
     }
@@ -89,6 +89,10 @@ module.exports = path => {
     if(next)
       return next(null)
     return null
+  }
+
+  const del = (key, next) => {
+    return set(key, null, {ttl: 0}, next)
   }
 
   const delete_expired = () => {
@@ -111,6 +115,7 @@ module.exports = path => {
   return {
     get: get,
     set: set,
+    del: del,
     quit: quit,
   }
 }
