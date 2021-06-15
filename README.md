@@ -84,6 +84,18 @@ console.log(data)
 */
 ```
 
+Delete entries
+
+```js
+kv.del('mykey')
+```
+
+```js
+kv.del('mykey', err => {
+  // check err and do stuff
+})
+```
+
 Use an ephemeral in-memory database with the path `:memory:`
 
 ```js
