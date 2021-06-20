@@ -14,7 +14,7 @@
     "cron": "^1.8.2"
   },
   "devDependencies": {
-    "mocha": "^8.4.0",
+    "mocha": "^9.0.1",
     "nyc": "^15.1.0"
   }
 }
