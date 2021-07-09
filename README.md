@@ -104,6 +104,8 @@ const kv = require('@nickadam/kv')(':memory:')
 
 # More information
 
+`*` are not permitted in key names.
+
 Expired entries are deleted at startup. For long running applications, a background job will delete expired entries once a minute - so long as you do not execute `kv.quit()`. Expired entries that have not yet been deleted will not return.
 
 Values are encoded and decoded using `JSON.stringify` and `JSON.parse`.

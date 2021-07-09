@@ -24,8 +24,10 @@ module.exports = path => {
 
     if(key.indexOf('*') > -1){
       return_multi = true
+      key = key.replace(/%/g, '\\%')
+      key = key.replace(/_/g, '\\_')
       key = key.replace(/\*/g, '%')
-      q = 'SELECT * FROM kv WHERE k LIKE ? AND (ttl = -1 OR CURRENT_TIMESTAMP < datetime(timestamp, \'+\' || ttl || \' seconds\'))'
+      q = 'SELECT * FROM kv WHERE k LIKE ? ESCAPE \'\\\' AND (ttl = -1 OR CURRENT_TIMESTAMP < datetime(timestamp, \'+\' || ttl || \' seconds\'))'
     }
 
     let data = []
@@ -69,6 +71,12 @@ module.exports = path => {
       next = a3
     if(typeof a4 === 'function')
       next = a4
+
+    if(key.indexOf('*') > -1){
+      if(next)
+        return next('\'*\' in keys are not permitted')
+      throw '\'*\' in keys are not permitted'
+    }
 
     let q = 'INSERT INTO kv (k,v) VALUES (@k, @v) ON CONFLICT(k) DO UPDATE SET v=@v,ttl=-1,timestamp=CURRENT_TIMESTAMP'
     const data = {
