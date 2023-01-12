@@ -10,11 +10,11 @@
   "repository": "nickadam/kv",
   "license": "MIT",
   "dependencies": {
-    "better-sqlite3": "^7.5.3",
-    "cron": "^2.0.0"
+    "better-sqlite3": "^8.0.1",
+    "cron": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "^10.0.0",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0"
   }
 }
